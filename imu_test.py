@@ -55,14 +55,14 @@ def main():
 
     # Generate synthetic IMU data
     num_samples = 1000
-    sampling_rate = 48
+    sampling_rate = 24
     time = np.arange(0, num_samples / sampling_rate, 1 / sampling_rate)
     acc_x = 0.5 * np.sin(2 * np.pi * 1 * time) + np.random.normal(0, 0.02, num_samples)
     acc_y = 0.5 * np.cos(2 * np.pi * 1 * time) + np.random.normal(0, 0.02, num_samples)
     acc_z = 9.81 + np.random.normal(0, 0.02, num_samples)
     imu_data = np.stack([acc_x, acc_y, acc_z], axis=1)
 
-    seq_length = 48
+    seq_length = 24
     batch_size = 32
     imu_dataset = IMUDataset(imu_data, seq_length=seq_length)
     training_loader = DataLoader(imu_dataset, batch_size=batch_size, shuffle=True)
