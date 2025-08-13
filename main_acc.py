@@ -72,6 +72,23 @@ model_synth_acc = Model(num_hiddens, num_residual_layers, num_residual_hiddens,
 opt_real_acc = torch.optim.Adam(model_real_acc.parameters(), lr=learning_rate)
 opt_synth_acc = torch.optim.Adam(model_synth_acc.parameters(), lr=learning_rate)
 
+
+
+def build_models():
+    num_hiddens = 128
+    num_residual_hiddens = 32
+    num_residual_layers = 4
+    embedding_dim = 64
+    num_embeddings = 512
+    commitment_cost = 0.25
+    decay = 0.99
+
+    model_real_acc = Model(num_hiddens, num_residual_layers, num_residual_hiddens,
+                           num_embeddings, embedding_dim, commitment_cost, decay)
+    model_synth_acc = Model(num_hiddens, num_residual_layers, num_residual_hiddens,
+                            num_embeddings, embedding_dim, commitment_cost, decay)
+    return model_real_acc, model_synth_acc
+
 lambda_cross = 1
 
 num_epochs = 500
