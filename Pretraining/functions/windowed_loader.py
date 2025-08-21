@@ -49,7 +49,7 @@ class IMUSlidingWindowDataset(Dataset):
         # Precompute windows for all clips
         for file_path in self.files:
             try:
-                data = torch.load(file_path)
+                data = torch.load(file_path, weights_only=True)
             except Exception as e:
                 print(f"Skipping file {file_path} due to load error: {e}")
                 continue
@@ -82,7 +82,7 @@ class IMUSlidingWindowDataset(Dataset):
 
     def __getitem__(self, idx):
         sample_info = self.samples[idx]
-        data = torch.load(sample_info["file_path"])
+        data = torch.load(sample_info["file_path"], weights_only=True)
         imu_data = data["imu"]
         start = sample_info["start_idx"]
         end = start + self.window_size

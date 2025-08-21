@@ -4,3 +4,4 @@
 /loader/__pycache__
 *.mat
 /Pretraining/functions/__pycache__
+*.pth
