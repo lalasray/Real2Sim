@@ -12,16 +12,16 @@ from info_nce import InfoNCE
 # Dataset
 # ----------------------------
 folder = "/home/lala/Documents/Data/Motion-Xplusplus/processed_dataset"
-window_sizes = [270, 300]
+window_sizes = [30, 60, 90, 120, 150,180, 210, 140, 270, 300]
 datasets = [IMUSlidingWindowDataset(folder, window_size=ws, stride=10) for ws in window_sizes]
 merged_dataset = ConcatDataset(datasets)
 
 total_len = len(merged_dataset)
-train_len = int(0.95 * total_len)
+train_len = int(0.9 * total_len)
 val_len = total_len - train_len
 train_dataset, val_dataset = random_split(merged_dataset, [train_len, val_len])
 
-train_loader = DataLoader(val_dataset, batch_size=128, shuffle=True, collate_fn=imu_collate_fn, num_workers=16)
+train_loader = DataLoader(train_dataset, batch_size=128, shuffle=True, collate_fn=imu_collate_fn, num_workers=16)
 val_loader = DataLoader(val_dataset, batch_size=128, shuffle=False, collate_fn=imu_collate_fn, num_workers=16)
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
