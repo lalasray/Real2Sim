@@ -88,6 +88,13 @@ class IMUFullWindowEncoder(nn.Module):
         final_embedding = self.final_fc(cls_out)
         return final_embedding
 
+class IdentityEncoder(nn.Module):
+    def __init__(self):
+        super(IdentityEncoder, self).__init__()
+        
+    def forward(self, x):
+        # Just return the input as-is
+        return x
 # --------------------------
 # Test
 # --------------------------

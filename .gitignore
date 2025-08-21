@@ -3,3 +3,4 @@
 /model/__pycache__
 /loader/__pycache__
 *.mat
+/Pretraining/functions/__pycache__
