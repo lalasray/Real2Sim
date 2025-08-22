@@ -11,8 +11,10 @@ from datetime import datetime
 # ----------------------------
 # Dataset
 # ----------------------------
-folder = "/mimer/NOBACKUP/groups/focs/datasets/MOTIONX/processed_dataset/processed_dataset"
-window_sizes = [30, 60, 90, 120, 150,180, 210, 140, 270, 300]
+folder = "/mimer/NOBACKUP/groups/focs/datasets/MOTIONX/processed_dataset"
+# window_sizes = [30, 60, 90, 120, 150,180, 210, 140, 270, 300]
+window_sizes = [300]
+
 datasets = [IMUSlidingWindowDataset(folder, window_size=ws, stride=10) for ws in window_sizes]
 merged_dataset = ConcatDataset(datasets)
 
@@ -21,7 +23,7 @@ train_len = int(0.9 * total_len)
 val_len = total_len - train_len
 train_dataset, val_dataset = random_split(merged_dataset, [train_len, val_len])
 
-train_loader = DataLoader(train_dataset, batch_size=128, shuffle=True, collate_fn=imu_collate_fn, num_workers=16)
+train_loader = DataLoader(val_dataset, batch_size=128, shuffle=True, collate_fn=imu_collate_fn, num_workers=16)
 val_loader = DataLoader(val_dataset, batch_size=128, shuffle=False, collate_fn=imu_collate_fn, num_workers=16)
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -177,7 +179,10 @@ for epoch in range(epochs):
     writer.add_scalar("Val_Loss/avg_alpha_loss", avg_alpha_loss_val, epoch)
     writer.add_scalar("Val_Loss/avg_beta_loss", avg_beta_loss_val, epoch)
     print(f"Validation Loss: {avg_val_loss:.4f}")
-    
+    # Calculate and log average cosine similarity per sensor key
+    for k, sims in similarity_scores.items():
+        avg_sim = sum(sims) / len(sims)
+        writer.add_scalar(f"Val_CosineSimilarity/avg_{k}", avg_sim, epoch)
 
 
 
@@ -200,5 +205,5 @@ for epoch in range(epochs):
 
 # Load best model
 if os.path.exists("best_model.pth"):
-    model.load_state_dict(os.path.join(save_path, "best_model.pth"))
+    model.load_state_dict(torch.load("best_model.pth"))
     print("Loaded best model state from disk.")
