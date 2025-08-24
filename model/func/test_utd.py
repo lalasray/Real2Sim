@@ -115,7 +115,7 @@ if __name__ == "__main__":
                             "gyro": batch["imu"][pos]["gyro"][0]} 
                       for pos in UTDMHAD_IMUDatasetFull.POSITIONS}
 
-        save_path = os.path.join(output_dir, f"{clip_name}.pt")
+        save_path = os.path.join(output_dir, f"{clip_name}_03.pt")
         torch.save({
             "clip_name": clip_name,
             "imu": imu_sample,
