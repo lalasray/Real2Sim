@@ -102,16 +102,12 @@ if __name__ == "__main__":
         # Since batch_size=1, get the first item
         clip_name = batch["clip_name"][0]
         
-        sample_to_save = {
-            "clip_name": clip_name,
-            "imu": {pos: {"accel": batch["imu"][pos]["accel"][0],
-                        "gyro": batch["imu"][pos]["gyro"][0]} 
-                    for pos in ["left_thigh", "right_thigh", "left_wrist", "right_wrist"]},
-            "sentence_embedding": batch["sentence_embedding"][0],
-            "title_embedding": batch["title_embedding"][0]
-        }
-        
-        save_path = os.path.join(output_dir, f"{clip_name}.pt")
-        torch.save(sample_to_save, save_path)
+        imu_sample = {pos: {"accel": batch["imu"][pos]["accel"][0],
+                            "gyro": batch["imu"][pos]["gyro"][0]} 
+                      for pos in ["left_thigh", "right_thigh", "left_wrist", "right_wrist"]}
 
-        print(f"Saved {clip_name} to {save_path}")
+        print(f"\nClip: {clip_name}")
+        for pos in imu_sample:
+            print(f"{pos} accel shape: {imu_sample[pos]['accel'].shape}, gyro shape: {imu_sample[pos]['gyro'].shape}")
+        print(f"Sentence embedding shape: {batch['sentence_embedding'][0].shape}")
+        print(f"Title embedding shape: {batch['title_embedding'][0].shape}")
