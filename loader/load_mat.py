@@ -2,7 +2,7 @@ from scipy.io import loadmat
 import matplotlib.pyplot as plt
 
 # Load the .mat file
-data = loadmat(r'/home/lala/Documents/Data/VQIMU/UTD_MHAD_Inertial/Inertial/a1_s1_t1_inertial.mat')
+data = loadmat(r"C:\Users\DFKILenovo\Downloads\Inertial\Inertial\a1_s8_t2_inertial.mat")
 
 # data is a dictionary with variable names as keys
 print(data.keys())
