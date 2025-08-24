@@ -165,10 +165,10 @@ if __name__ == '__main__':
         sys.path.append(project_root)
     from utils.plot import plot_sample_signals
 
-    root_sim = '/home/lala/Documents/Data/VQIMU/UTD_MHAD'
-    root_real = '/home/lala/Documents/Data/VQIMU/UTD_MHAD_Inertial/Inertial'
+    root_sim = r"C:\Users\DFKILenovo\Desktop\UTD_MHAD"
+    root_real = r"C:\Users\DFKILenovo\Desktop\UTD_MHAD_Inertial\Inertial"
 
-    window_size = 24
+    window_size = 30
     stride = 1
 
     train_dataset = UTDMHAD_IMUDataset(root_sim, real_dir=root_real, subjects=[1, 2, 3, 4, 5], window_size=window_size, stride=stride)
